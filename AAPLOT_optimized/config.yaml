@@ -1,0 +1,58 @@
+# AAPlot Configuration File
+# 用于配置数据处理和可视化的参数
+
+# 数据文件设置
+data:
+  folder_path: "D:/Science/Experiment data/eCB sensors/Selective sensor/FiberPhotometry/Drug intake/NAcSh_All_data_in_1_folder/01_Summary/2-AG/cocaine"
+  file_extensions: ["*.txt", "*.csv"]
+  delimiter: ","
+
+# 事件检测参数
+event_detection:
+  pre_event_time: 0.5  # 小时
+  post_event_time: 2.0  # 小时
+  baseline_window:
+    start: 100  # 秒
+    end: 500    # 秒
+
+# 数据平滑参数
+smoothing:
+  window_length: 2001
+  polyorder: 2
+  enabled: true
+
+# 分析时间窗口（秒）
+analysis:
+  start_time: 300   # 5分钟
+  end_time: 2100    # 35分钟
+
+# 绘图设置
+plot:
+  figsize: [8, 3]
+  colors:
+    individual: "lightgrey"
+    mean: "darkgoldenrod"
+    error_band: "darkgoldenrod"
+  linewidth:
+    individual: 1
+    mean: 3
+    vertical_line: 3
+  font:
+    family: "Arial"
+    xlabel_size: 20
+    ylabel_size: 20
+    tick_size: 18
+  axis:
+    x_limits: [-0.25, 1.5]
+    y_limits: [-5, 15]
+    x_ticks: [-0.5, 2.1, 0.5]
+    y_ticks: [-5, 15, 5]
+
+# 输出设置
+output:
+  save_aligned_data: true
+  save_metrics: true
+  save_plots: true
+  plot_format: "svg"
+  plot_dpi: 300
+  output_suffix: "optimized"
