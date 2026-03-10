@@ -53,6 +53,7 @@ python Animal_locomotion_analysis_batch.py  # edit folder_path/manual_event_time
 ```
 Outputs live in `combined_analysis` (cleaned CSVs, plots, `batch_summary.csv`).
 
+<<<<<<< HEAD
 **Neural activity:**
 ```bash
 python fiber_trace_spike2_analysis_batch.py <input_folder> [--output <folder>]
@@ -68,3 +69,6 @@ python fiber_trace_spike2_analysis_batch.py
 
 * Created by Ruyi Cai @ Yulong Li lab, PKU, China
 
+=======
+
+>>>>>>> a1d76734b3a1f85f903264174bbc5ffc4276616a
