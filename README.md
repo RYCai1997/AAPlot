@@ -79,21 +79,4 @@ conda env create -n PLOT python=3.12.7 pandas numpy matplotlib seaborn ipykernel
 3. Run the analysis
 4. Check the output folder for results
 
-### For Optimized Tools
-1. Navigate to the `AAPLOT_optimized` folder
-2. Configure parameters in `config.yaml`
-3. Run the appropriate script:
-   - `run_command_line.bat` for Windows users
-   - `run_fluorescence_analysis.py` for direct Python execution
-   - `run_multi_file_analysis.py` for batch processing
 
-## Development Status
-
-- ✅ Locomotion Analysis (Stable)
-- ✅ Basic Behavior Analysis (Stable)
-- ✅ Neural Activity Analysis (Stable)
-- ✅ Optimized Tools (Production Ready)
-
-## Contributing
-
-Feel free to submit issues and enhancement requests.
