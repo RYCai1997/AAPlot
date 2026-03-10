@@ -1,99 +1,70 @@
 # AAPlot - Animal Behavior and Fiberphotometry Analysis Tools
 
-AAPlot is a comprehensive suite of Python-based tools for analyzing animal behavior and Fiberphotometry data from Spike2 recordings. The toolkit includes modules for locomotion analysis, behavioral event analysis, and fluorescence trace analysis.
+AAPlot is a comprehensive suite of Python-based tools for analyzing animal behavior and analyzed Fiberphotometry data from Spike2. The toolkit includes modules for locomotion analysis and fluorescence trace analysis.
 
 ## Environment Setup
 
-### Prerequisites
-- Python 3.12.7 (or Python 3.13.3 for ARM64 CPU)
-- Anaconda (must be added to PATH)
+Requires Python 3.12 (3.13 for ARM64) and Anaconda in your PATH.  Create and
+activate the `PLOT` environment with:
 
-### Creating the Environment
 ```bash
 conda env create -n PLOT python=3.12.7 pandas numpy matplotlib seaborn ipykernel
-# For ARM64 CPU, add conda-forge at the end of the command
+conda activate PLOT
 ```
 
-### Activation
-- In VS Code: Select 'PLOT' from the Kernel list
-- In terminal: `conda activate PLOT`
+(Select `PLOT` as the kernel in VS Code when running notebooks.)
 
-## Tools Overview
+### Animal locomotion (EzTrack)
 
-### Animal Behavior Analysis Workflow
+- **Script**: `Animal_locomotion_analysis_batch.py`
 
-1. **AAPlot_Animal_Behavior Tools**
-   - Purpose: Extract locomotion data and create event markers
-   - Workflow:
-     1. Use EzTrack to track animal movement
-     2. Process EzTrack output data using AAPlot_Animal_Behavior
-     3. Import processed data into Spike2 to specify event markers
-     4. Export event-marked data as .txt file from Spike2
+  Processes a directory of EzTrack CSV outputs (time, speed/position, optional
+  markers).  Data are cleaned, smoothed, and aligned to an event time derived
+  from markers or manually specified overrides.  The script computes speed
+  summaries over predefined windows (pre‑1h, 0‑1h, 1‑2h, 2‑3h), saves a
+  processed CSV and speed plot for each animal, and writes a combined summary
+  CSV.
 
-2. **AAPlot_Animal_Locomotion_analysis Tools**
-   - Purpose: Analyze behavior with event markers
-   - Input: Spike2 exported .txt files with event markers
-   - Features:
-     - **[batch].ipynb**: Process multiple files with:
-       - Time-based analysis (pre-event and post-event)
-       - Speed and distance calculations
-       - Cumulative analysis windows (0-1h, 0-2h, 0-3h)
-       - Combined summary export
-     - **[single].ipynb**: Single-file processing for verification
+  Edit the `folder_path` and `manual_event_times` variables near the top of
+  the file to configure defaults.
 
-### Fiber Photometry Analysis
+### Fiber photometry (Spike2 traces)
 
-1. **AAPlot_spike2_trace[multi]_v1.ipynb**
-   - Purpose: Analyze fiber photometry fluorescent signals
-   - Features:
-     - Process multiple recording traces
-     - Analyze fluorescence data from Spike2 recordings
-     - Batch processing capabilities
+- **Script**: `fiber_trace_spike2_analysis_batch.py`
 
-2. **AAPlot_spike2_trace[single]_v1.ipynb**
-   - Single trace version of fluorescence analysis
-   - Detailed analysis of individual recordings
+  Reads all Spike2-exported `.txt` files in a folder.  Each file must contain
+  three columns: time (s), z‑score signal, and event marker (0/1).  Traces are
+  aligned to the marker, smoothed, and metrics (peak mean, AUC, max/min) are
+  calculated within configurable windows.  The script produces a metrics CSV
+  and a `plot.svg` illustrating individual and mean traces.
 
-3. **AAPlot_spike2_trace_optimized.ipynb**
-   - Optimized version with improved performance
-   - Enhanced data processing capabilities
-
-4. **AAPlot_Event_dFF0.py**
-   - Event-related fluorescence analysis
-   - Calculates dF/F0 for neural activity quantification
-
-### Optimized Tools (AAPLOT_optimized/)
+  Configuration options such as axis limits, smoothing parameters, and
+  analysis windows live at the top of the script or may be overridden via the
+  command line.
 
 
 ## Usage
 
-### For Locomotion Analysis
-1. Open `AAPlot_Animal_Locomotion_analysis[batch].ipynb` for multiple files or `[single].ipynb` for individual files
-2. Set the input folder path (for batch) or file path (for single)
-3. Run all cells
-4. Results will be saved in an 'analysis_results' subfolder
+Run the following scripts for headless batch processing.
 
-### For Neural Activity Analysis
-1. Choose the appropriate notebook based on your needs (single/multi/optimized)
-2. Configure the input parameters
-3. Run the analysis
-4. Check the output folder for results
+**Locomotion:**
+```bash
+python Animal_locomotion_analysis_batch.py  # edit folder_path/manual_event_times
+```
+Outputs live in `combined_analysis` (cleaned CSVs, plots, `batch_summary.csv`).
 
-### For Optimized Tools
-1. Navigate to the `AAPLOT_optimized` folder
-2. Configure parameters in `config.yaml`
-3. Run the appropriate script:
-   - `run_command_line.bat` for Windows users
-   - `run_fluorescence_analysis.py` for direct Python execution
-   - `run_multi_file_analysis.py` for batch processing
+**Neural activity:**
+```bash
+python fiber_trace_spike2_analysis_batch.py <input_folder> [--output <folder>]
+```
 
-## Development Status
+or with custom parameters:
+```bash
+python fiber_trace_spike2_analysis_batch.py 
+```
+(defaults and plotting options are in the script).  
 
-- ✅ Locomotion Analysis (Stable)
-- ✅ Basic Behavior Analysis (Stable)
-- ✅ Neural Activity Analysis (Stable)
-- ✅ Optimized Tools (Production Ready)
 
-## Contributing
 
-Feel free to submit issues and enhancement requests.
+* Created by Ruyi Cai @ Yulong Li lab, PKU, China
+
